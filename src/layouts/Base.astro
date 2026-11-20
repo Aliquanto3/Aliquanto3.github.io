@@ -1,7 +1,9 @@
 ---
 import "../styles/global.css";
+import Navbar from "../components/Navbar.tsx";
+import { localizedPath, type Lang as LangI18n } from "../i18n/ui";
 
-export type Lang = "fr" | "en";
+export type Lang = LangI18n;
 
 interface Props {
   lang: Lang;
@@ -10,6 +12,7 @@ interface Props {
 }
 
 const { lang, title, description } = Astro.props;
+const autreLang: Lang = lang === "fr" ? "en" : "fr";
 
 // Chemin sans préfixe de langue : "/" pour l'accueil, quelle que soit la langue.
 const chemin = Astro.url.pathname.replace(/^\/en(?=\/|$)/, "") || "/";
@@ -18,6 +21,11 @@ const urls: Record<Lang, string> = {
   fr: new URL(chemin, site).href,
   en: new URL(`/en${chemin}`, site).href,
 };
+const homeHref = localizedPath(lang, "/");
+const otherLangHref = localizedPath(autreLang, chemin);
+const GITHUB_URL = "https://github.com/Aliquanto3";
+const LINKEDIN_URL = "https://www.linkedin.com/in/ana%C3%ABl-yahi/";
+const EMAIL = "anael.yahi@gmail.com";
 ---
 
 <!doctype html>
@@ -58,5 +66,14 @@ const urls: Record<Lang, string> = {
   </head>
   <body>
     <slot />
+    <Navbar
+      lang={lang}
+      homeHref={homeHref}
+      otherLangHref={otherLangHref}
+      email={EMAIL}
+      githubUrl={GITHUB_URL}
+      linkedinUrl={LINKEDIN_URL}
+      client:load
+    />
   </body>
 </html>

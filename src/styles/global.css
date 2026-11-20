@@ -57,3 +57,131 @@ a:hover {
   outline-offset: var(--focus-decalage);
   border-radius: var(--rayon-petit);
 }
+
+/* Marge pour que la barre flottante (story 1.2) ne masque pas le contenu. */
+main {
+  padding-bottom: calc(var(--espacement-8) + 56px);
+}
+
+/* Barre flottante (story 1.2) : dock centré en bas d'écran. */
+.barre {
+  position: fixed;
+  left: 50%;
+  bottom: var(--espacement-5);
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: var(--espacement-2);
+  padding: var(--espacement-2);
+  background: var(--surface);
+  border: var(--trait-largeur) solid var(--trait);
+  border-radius: var(--rayon-pilule);
+  box-shadow: var(--halo);
+  z-index: 50;
+}
+
+.barre__item {
+  position: relative;
+  display: inline-flex;
+}
+
+.barre__bouton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  color: var(--texte);
+  background: transparent;
+  border: none;
+  border-radius: var(--rayon-pilule);
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.barre__bouton:hover {
+  background: var(--surface-alt);
+  color: var(--primaire);
+}
+
+.barre__texte-langue {
+  font-family: var(--police-titres);
+  font-weight: var(--graisse-titres);
+  font-size: var(--taille-petit);
+}
+
+.barre__separateur {
+  align-self: stretch;
+  width: var(--trait-largeur);
+  margin: var(--espacement-1) 0;
+  background: var(--trait);
+}
+
+.barre__infobulle {
+  position: absolute;
+  bottom: calc(100% + var(--espacement-2));
+  left: 50%;
+  transform: translateX(-50%) translateY(4px);
+  padding: var(--espacement-1) var(--espacement-3);
+  white-space: nowrap;
+  font-size: var(--taille-petit);
+  color: var(--sur-encre);
+  background: var(--encre-pleine);
+  border-radius: var(--rayon-petit);
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    opacity 0.15s ease,
+    transform 0.15s ease;
+}
+
+.barre__bouton:hover + .barre__infobulle,
+.barre__bouton:focus-visible + .barre__infobulle {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* Fin de barre : info-bulle alignée à droite, sans débordement à 320 px. */
+.barre__item--droite .barre__infobulle {
+  left: auto;
+  right: 0;
+  transform: translateY(4px);
+}
+
+.barre__item--droite .barre__bouton:hover + .barre__infobulle,
+.barre__item--droite .barre__bouton:focus-visible + .barre__infobulle {
+  transform: translateY(0);
+}
+
+/* Icônes du thème : toutes deux rendues, la CSS choisit laquelle afficher
+   (évite tout décalage à l'hydratation, cf. ThemeToggle.tsx). */
+.barre__icone-lune {
+  display: none;
+}
+
+[data-theme="clair"] .barre__icone-soleil {
+  display: none;
+}
+
+[data-theme="clair"] .barre__icone-lune {
+  display: block;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .barre__infobulle {
+    transition: none;
+  }
+}
