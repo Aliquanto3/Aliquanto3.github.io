@@ -2,18 +2,17 @@
 // Section « Projets », alimentée par src/data/projets.json (instantané généré
 // au build par scripts/projets.mjs depuis portfolio.json et l'API GitHub).
 //
-// Correspondance état -> couleurs de badge (charte-generique v2.1.0), choisie
-// pour rester dans la liste de variables de statut de la charte et garder un
-// contraste suffisant (fond en teinte « -doux », texte --texte ou --alerte-texte) :
-//   status-deployed -> --succes-doux (fond) / --succes (puce)      : déployé, succès
-//   status-refonte  -> --alerte-doux (fond) / --alerte (puce)      : refonte majeure, à surveiller
-//                      texte --alerte-texte (contraste déjà validé par la charte)
-//   status-test     -> --primaire-doux (fond et puce)              : construit, en test
-//   status-bench     -> --erreur-doux (fond) / --erreur (puce)      : entraînement ou bancs en cours
-//                      (couleur la plus marquée restante, pour l'état le plus incertain)
-//   status-dev       -> --sur-statut (fond) / --neutre (puce)       : en développement
-//   status-spec      -> --sur-statut (fond) / --badge-etiquette (puce) : en spécification
-//   état inconnu      -> --sur-statut (fond) / --neutre (puce), repli
+// Correspondance état -> couleurs de badge, alignée sur les emojis du README du
+// profil, avec les seules variables de la charte (charte-generique v2.1.0) ;
+// fond en teinte « -doux » ou --sur-statut, texte --texte ou --alerte-texte,
+// bordure (« puce ») en couleur vive :
+//   status-deployed 🟢 -> --succes-doux / --succes
+//   status-refonte  🟠 -> --alerte-doux / --alerte (texte --alerte-texte)
+//   status-test     🔵 -> --primaire-doux / --primaire
+//   status-bench    🟣 -> --sur-statut / --cat-4 (seule teinte violacée de la charte)
+//   status-dev      🟡 -> --accent-doux / --accent
+//   status-spec     ⚪ -> --sur-statut / --neutre
+//   état inconnu       -> --sur-statut / --badge-etiquette, repli
 import projets from "../../data/projets.json";
 
 interface Props {
@@ -35,11 +34,13 @@ const labels = {
   },
 };
 const t = labels[lang];
+// L'instantané est trié en FR ; `ordre[lang]` donne le tri propre à chaque langue.
+const liste = [...projets].sort((a, b) => a.ordre[lang] - b.ordre[lang]);
 
 const DEFAULT_BADGE = {
   fond: "var(--sur-statut)",
   texte: "var(--texte)",
-  puce: "var(--neutre)",
+  puce: "var(--badge-etiquette)",
 };
 const badgeStyles: Record<
   string,
@@ -58,22 +59,22 @@ const badgeStyles: Record<
   "status-test": {
     fond: "var(--primaire-doux)",
     texte: "var(--texte)",
-    puce: "var(--primaire-doux)",
+    puce: "var(--primaire)",
   },
   "status-bench": {
-    fond: "var(--erreur-doux)",
-    texte: "var(--texte)",
-    puce: "var(--erreur)",
-  },
-  "status-dev": {
     fond: "var(--sur-statut)",
     texte: "var(--texte)",
-    puce: "var(--neutre)",
+    puce: "var(--cat-4)",
+  },
+  "status-dev": {
+    fond: "var(--accent-doux)",
+    texte: "var(--texte)",
+    puce: "var(--accent)",
   },
   "status-spec": {
     fond: "var(--sur-statut)",
     texte: "var(--texte)",
-    puce: "var(--badge-etiquette)",
+    puce: "var(--neutre)",
   },
 };
 ---
@@ -81,7 +82,7 @@ const badgeStyles: Record<
 <section id="projets" class="py-16">
   <h2 class="text-[length:var(--taille-titre-2)]">{t.titre}</h2>
   <div class="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-    {projets.map((p) => {
+    {liste.map((p) => {
       const badge = badgeStyles[p.etat ?? ""] ?? DEFAULT_BADGE;
       return (
         <article
@@ -91,7 +92,7 @@ const badgeStyles: Record<
             borderColor: "var(--trait)",
           }}
         >
-          <h3 class="text-[length:var(--taille-grand)]">{p.nom}</h3>
+          <h3 class="text-[length:var(--taille-grand)]">{p.nom[lang]}</h3>
           <span
             class="inline-flex w-fit items-center gap-2 rounded-[var(--rayon-moyen)] px-2 py-1 text-[length:var(--taille-petit)]"
             style={{
@@ -112,7 +113,7 @@ const badgeStyles: Record<
             href={p.url}
             target="_blank"
             rel="noopener noreferrer"
-            aria-label={t.voir(p.nom)}
+            aria-label={t.voir(p.nom[lang])}
             class="mt-auto"
           >
             GitHub ↗

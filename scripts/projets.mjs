@@ -24,7 +24,9 @@ const SNAPSHOT_PATH = fileURLToPath(
 );
 
 function warn(msg) {
-  console.error(`avertissement : ${msg}`);
+  // En CI (GitHub Actions), annotation ::warning:: visible dans le résumé du run.
+  const prefix = process.env.GITHUB_ACTIONS === "true" ? "::warning::" : "";
+  console.error(`${prefix}avertissement : ${msg}`);
 }
 
 // --- Fonctions pures (testées) --------------------------------------------
@@ -34,9 +36,11 @@ export function normalizeForSort(text) {
   return (text || "").toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "");
 }
 
-/** Nom affiché d'un dépôt : nom du portfolio.json sinon nom du dépôt GitHub. */
-export function displayName(repo, meta) {
-  return (meta && meta.name) || repo.name;
+/** Nom affiché d'un dépôt dans une langue : name_en (EN), sinon name, sinon nom du dépôt. */
+export function displayName(repo, meta, lang = "fr") {
+  return (
+    (lang === "en" && meta && meta.name_en) || (meta && meta.name) || repo.name
+  );
 }
 
 /** Clé d'état (topic status-* connu, sinon état par défaut si une release existe). */
@@ -74,7 +78,7 @@ export function selectRepos(repos, cfg) {
 }
 
 /** Dépôts triés par rang d'état puis nom affiché (insensible à la casse et aux accents). */
-export function sortRepos(repos, cfg) {
+export function sortRepos(repos, cfg, lang = "fr") {
   const ranks = Object.values(cfg.statuses).map((s) => s.rank);
   const lastRank = (ranks.length ? Math.max(...ranks) : 0) + 1;
   const meta = cfg.repos || {};
@@ -85,8 +89,8 @@ export function sortRepos(repos, cfg) {
   return [...repos].sort((a, b) => {
     const diff = rankOf(a) - rankOf(b);
     if (diff !== 0) return diff;
-    const na = normalizeForSort(displayName(a, meta[a.name]));
-    const nb = normalizeForSort(displayName(b, meta[b.name]));
+    const na = normalizeForSort(displayName(a, meta[a.name], lang));
+    const nb = normalizeForSort(displayName(b, meta[b.name], lang));
     if (na < nb) return -1;
     if (na > nb) return 1;
     return 0;
@@ -97,7 +101,10 @@ export function sortRepos(repos, cfg) {
 export function buildEntry(repo, cfg) {
   const meta = (cfg.repos && cfg.repos[repo.name]) || {};
   return {
-    nom: displayName(repo, meta),
+    nom: {
+      fr: displayName(repo, meta, "fr"),
+      en: displayName(repo, meta, "en"),
+    },
     description: {
       fr: mergeDescription(repo, meta, "fr"),
       en: mergeDescription(repo, meta, "en"),
@@ -113,9 +120,45 @@ export function buildEntry(repo, cfg) {
   };
 }
 
-/** Jeu de dépôts normalisés -> instantané trié, prêt à sérialiser. */
+/**
+ * Jeu de dépôts normalisés -> instantané trié dans l'ordre FR, prêt à sérialiser.
+ * `ordre.{fr,en}` donne la position de chaque entrée dans le tri de chaque langue
+ * (le nom affiché, donc l'ordre, peut différer entre FR et EN).
+ */
 export function buildProjets(repos, cfg) {
-  return sortRepos(selectRepos(repos, cfg), cfg).map((r) => buildEntry(r, cfg));
+  const kept = selectRepos(repos, cfg);
+  const enIndex = new Map(
+    sortRepos(kept, cfg, "en").map((r, i) => [r.name, i]),
+  );
+  return sortRepos(kept, cfg, "fr").map((r, i) => ({
+    ...buildEntry(r, cfg),
+    ordre: { fr: i, en: enIndex.get(r.name) },
+  }));
+}
+
+/** Entrées d'un instantané dans l'ordre d'une langue. */
+export function orderFor(entries, lang) {
+  return [...entries].sort((a, b) => a.ordre[lang] - b.ordre[lang]);
+}
+
+/** Élément de réponse search -> dépôt normalisé, ou null s'il n'est pas public. */
+export function normalizeSearchItem(item) {
+  if (item.private || item.visibility === "private") return null;
+  return {
+    name: item.name,
+    url: item.html_url,
+    description: item.description || "",
+    topics: item.topics || [],
+  };
+}
+
+/** Lève une erreur si le nouvel instantané ne doit pas remplacer l'existant. */
+export function checkReplacement(entries, existing) {
+  if (entries.length === 0 && Array.isArray(existing) && existing.length > 0) {
+    throw new Error(
+      "aucun dépôt avec le topic suivi alors que l'instantané en contient",
+    );
+  }
 }
 
 /** Sérialisation déterministe (indentation 2, LF, fin de ligne finale). */
@@ -158,17 +201,16 @@ async function fetchRepoList(cfg, token) {
   let page = 1;
   for (;;) {
     const url = `${API_BASE}/search/repositories?q=${encodeURIComponent(
-      `user:${OWNER} topic:${cfg.topic}`,
+      `user:${OWNER} topic:${cfg.topic} is:public fork:true`,
     )}&per_page=100&page=${page}`;
     const data = await fetchJson(url, token);
+    if (data.incomplete_results) {
+      throw new Error("résultats de recherche GitHub incomplets");
+    }
     const items = data.items || [];
     for (const item of items) {
-      repos.push({
-        name: item.name,
-        url: item.html_url,
-        description: item.description || "",
-        topics: item.topics || [],
-      });
+      const repo = normalizeSearchItem(item);
+      if (repo) repos.push(repo);
     }
     if (items.length < 100) break;
     page += 1;
@@ -232,6 +274,7 @@ export async function run({
     const cfg = await fetchConfig();
     const repos = await fetchRepos(cfg, token);
     const entries = buildProjets(repos, cfg);
+    checkReplacement(entries, existing);
     await writeFile(snapshotPath, formatSnapshot(entries), "utf8");
     return 0;
   } catch (err) {

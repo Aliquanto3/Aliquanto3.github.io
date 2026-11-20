@@ -14,6 +14,9 @@ import {
   sortRepos,
   buildEntry,
   buildProjets,
+  orderFor,
+  normalizeSearchItem,
+  checkReplacement,
   formatSnapshot,
   run,
 } from "./projets.mjs";
@@ -183,7 +186,7 @@ test("buildEntry : forme complète d'une entrée", () => {
     CFG,
   );
   assert.deepEqual(entry, {
-    nom: "Zeta",
+    nom: { fr: "Zeta", en: "Zeta" },
     description: { fr: "d", en: "Zeta en" },
     etat: "status-deployed",
     etatLabel: {
@@ -204,7 +207,7 @@ test("buildProjets : filtre, trie et construit en un seul passage", () => {
   ];
   const projets = buildProjets(repos, CFG);
   assert.deepEqual(
-    projets.map((p) => p.nom),
+    projets.map((p) => p.nom.fr),
     ["omega", "Zeta"],
   );
 });
@@ -318,6 +321,9 @@ test("run : construit l'instantané à partir de l'API simulée", async (t) => {
       return { ok: true, status: 200, text: async () => JSON.stringify(cfg) };
     }
     if (u.includes("/search/repositories")) {
+      const q = new URL(u).searchParams.get("q");
+      assert.match(q, / is:public( |$)/);
+      assert.match(q, / fork:true( |$)/);
       return {
         ok: true,
         status: 200,
@@ -327,6 +333,13 @@ test("run : construit l'instantané à partir de l'API simulée", async (t) => {
               name: "zeta",
               html_url: "https://x/zeta",
               description: "desc github",
+              topics: ["ai-portfolio", "status-deployed"],
+            },
+            {
+              name: "secret",
+              html_url: "https://x/secret",
+              description: "privé",
+              private: true,
               topics: ["ai-portfolio", "status-deployed"],
             },
           ],
@@ -354,15 +367,127 @@ test("run : construit l'instantané à partir de l'API simulée", async (t) => {
   const written = JSON.parse(await readFile(snapshotPath, "utf8"));
   assert.deepEqual(written, [
     {
-      nom: "Zeta",
+      nom: { fr: "Zeta", en: "Zeta" },
       description: { fr: "desc github", en: "Zeta en" },
       etat: "status-deployed",
       etatLabel: { fr: "Déployé · v1", en: "Deployed · v1" },
       release: "v1",
       preversion: false,
       url: "https://x/zeta",
+      ordre: { fr: 0, en: 0 },
     },
   ]);
 
   await rm(dir, { recursive: true, force: true });
+});
+
+// --- name_en, dépôts privés, réponses vides ou incomplètes -----------------
+
+const CFG_EN = {
+  ...CFG,
+  repos: {
+    copilote: { name: "Copilote Jira", name_en: "Jira Copilot" },
+    banc: { name: "Banc" },
+  },
+};
+
+test("displayName : name_en en anglais, name sinon", () => {
+  const meta = CFG_EN.repos.copilote;
+  assert.equal(displayName(repo("copilote"), meta, "fr"), "Copilote Jira");
+  assert.equal(displayName(repo("copilote"), meta, "en"), "Jira Copilot");
+  assert.equal(displayName(repo("banc"), CFG_EN.repos.banc, "en"), "Banc");
+});
+
+test("buildProjets : nom et ordre par langue (name_en change le tri)", () => {
+  const repos = [
+    repo("copilote", { topics: ["status-dev"] }),
+    repo("banc", { topics: ["status-dev"] }),
+  ];
+  const projets = buildProjets(repos, CFG_EN);
+  // FR : Banc < Copilote Jira ; EN : Banc < Jira Copilot aussi, donc on
+  // ajoute un dépôt qui s'intercale entre les deux noms anglais.
+  const plus = buildProjets(
+    [...repos, repo("dauphin", { topics: ["status-dev"] })],
+    CFG_EN,
+  );
+  assert.deepEqual(
+    projets.map((p) => p.nom.en),
+    ["Banc", "Jira Copilot"],
+  );
+  assert.deepEqual(
+    orderFor(plus, "fr").map((p) => p.nom.fr),
+    ["Banc", "Copilote Jira", "dauphin"],
+  );
+  assert.deepEqual(
+    orderFor(plus, "en").map((p) => p.nom.en),
+    ["Banc", "dauphin", "Jira Copilot"],
+  );
+});
+
+test("normalizeSearchItem : écarte les dépôts privés", () => {
+  assert.equal(normalizeSearchItem({ name: "a", private: true }), null);
+  assert.equal(normalizeSearchItem({ name: "a", visibility: "private" }), null);
+  assert.deepEqual(
+    normalizeSearchItem({ name: "a", html_url: "u", private: false }),
+    { name: "a", url: "u", description: "", topics: [] },
+  );
+});
+
+test("checkReplacement : zéro projet ne remplace pas un instantané non vide", () => {
+  assert.throws(() => checkReplacement([], [{ nom: "x" }]));
+  assert.doesNotThrow(() => checkReplacement([], []));
+  assert.doesNotThrow(() => checkReplacement([], null));
+  assert.doesNotThrow(() => checkReplacement([{}], [{ nom: "x" }]));
+});
+
+async function runWithSearch(t, searchBody) {
+  const dir = await mkdtemp(path.join(tmpdir(), "projets-test-"));
+  const snapshotPath = path.join(dir, "projets.json");
+  const existing = formatSnapshot([{ nom: { fr: "Déjà là", en: "Already" } }]);
+  await writeFile(snapshotPath, existing, "utf8");
+  const originalFetch = globalThis.fetch;
+  globalThis.fetch = async (url) => {
+    const u = String(url);
+    if (u.includes("raw.githubusercontent.com")) {
+      return { ok: true, status: 200, text: async () => JSON.stringify(CFG) };
+    }
+    if (u.includes("/search/repositories")) {
+      return { ok: true, status: 200, json: async () => searchBody };
+    }
+    return { ok: false, status: 404, json: async () => ({}) };
+  };
+  const originalErr = console.error;
+  const warnings = [];
+  console.error = (msg) => warnings.push(msg);
+  t.after(async () => {
+    globalThis.fetch = originalFetch;
+    console.error = originalErr;
+    await rm(dir, { recursive: true, force: true });
+  });
+  const code = await run({ snapshotPath });
+  return {
+    code,
+    existing,
+    written: await readFile(snapshotPath, "utf8"),
+    warnings,
+  };
+}
+
+test("run : réponse search vide garde l'instantané non vide", async (t) => {
+  const r = await runWithSearch(t, { incomplete_results: false, items: [] });
+  assert.equal(r.code, 0);
+  assert.equal(r.written, r.existing);
+  assert.ok(r.warnings.some((w) => w.includes("avertissement")));
+});
+
+test("run : réponse search incomplète garde l'instantané", async (t) => {
+  const item = {
+    name: "zeta",
+    html_url: "https://x/zeta",
+    topics: ["ai-portfolio", "status-dev"],
+  };
+  const r = await runWithSearch(t, { incomplete_results: true, items: [item] });
+  assert.equal(r.code, 0);
+  assert.equal(r.written, r.existing);
+  assert.ok(r.warnings.some((w) => w.includes("incomplets")));
 });

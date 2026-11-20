@@ -30,6 +30,10 @@ jobs:
       - run: npm test
       - run: npm run check
       - run: npm run build
+        env:
+          # Lecture de l'API publique (search, releases) : 1 000 requêtes/h par
+          # dépôt au lieu de 60/h anonymes par IP de runner partagée.
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - uses: actions/upload-pages-artifact@v5
         with:
           path: dist

@@ -1,6 +1,9 @@
 [
   {
-    "nom": "Agent Cost Kit",
+    "nom": {
+      "fr": "Agent Cost Kit",
+      "en": "Agent Cost Kit"
+    },
     "description": {
       "fr": "Plugin Claude Code pour développer par agents sans faire exploser la facture : agents routés par rôle, contrôle rapide, mesure du coût réel depuis les transcriptions.",
       "en": "Claude Code plugin for developing with agents without blowing up the bill: role-routed agents, quick end-of-story check, real cost measurement from local transcripts."
@@ -12,10 +15,17 @@
     },
     "release": "v0.22.2",
     "preversion": false,
-    "url": "https://github.com/Aliquanto3/agent-cost-kit"
+    "url": "https://github.com/Aliquanto3/agent-cost-kit",
+    "ordre": {
+      "fr": 0,
+      "en": 0
+    }
   },
   {
-    "nom": "Charte générique",
+    "nom": {
+      "fr": "Charte générique",
+      "en": "Generic Design System"
+    },
     "description": {
       "fr": "Generic dark-first design system: DTCG tokens, theme files (CSS, Python, Streamlit, Office, mermaid) and accessibility checks, as a Claude Code plugin.",
       "en": "Dark-first design system shipped as a Claude Code plugin: DTCG tokens, theme files for web, Streamlit, Python charts, Office and mermaid, accessibility checks (contrast, colour blindness), and a skill that audits a repository and migrates it to the system."
@@ -27,10 +37,17 @@
     },
     "release": "v1.0.0",
     "preversion": false,
-    "url": "https://github.com/Aliquanto3/charte-generique"
+    "url": "https://github.com/Aliquanto3/charte-generique",
+    "ordre": {
+      "fr": 1,
+      "en": 2
+    }
   },
   {
-    "nom": "Claude Code Mods",
+    "nom": {
+      "fr": "Claude Code Mods",
+      "en": "Claude Code Mods"
+    },
     "description": {
       "fr": "Mods pour l'interface de Claude Code, installables en une ligne",
       "en": "Mods for the Claude Code interface, installed with one line: diff-replie folds file diffs and shell output into one line and groups consecutive calls of the same kind, keeping the full detail one command away."
@@ -42,10 +59,17 @@
     },
     "release": "v1.0.1",
     "preversion": false,
-    "url": "https://github.com/Aliquanto3/claude-code-mods"
+    "url": "https://github.com/Aliquanto3/claude-code-mods",
+    "ordre": {
+      "fr": 2,
+      "en": 1
+    }
   },
   {
-    "nom": "HarnessLab",
+    "nom": {
+      "fr": "HarnessLab",
+      "en": "HarnessLab"
+    },
     "description": {
       "fr": "Démonstrateur pédagogique qui montre, brique par brique, ce qu'un harnais agentique ajoute à un LLM nu (raisonnement, mémoire, outils, RAG, MCP, skills, hooks, sous-agents). Local, sur CPU ; interface en français, anglais et allemand.",
       "en": "Teaching demonstrator that shows, building block by building block, what an agentic harness adds to a bare LLM (reasoning, memory, tools, RAG, MCP, skills, hooks, sub-agents). Runs locally on CPU; French, English and German interface."
@@ -57,10 +81,17 @@
     },
     "release": "v2.1.1",
     "preversion": false,
-    "url": "https://github.com/Aliquanto3/harness-lab"
+    "url": "https://github.com/Aliquanto3/harness-lab",
+    "ordre": {
+      "fr": 3,
+      "en": 3
+    }
   },
   {
-    "nom": "SLM Quality Bench",
+    "nom": {
+      "fr": "SLM Quality Bench",
+      "en": "SLM Quality Bench"
+    },
     "description": {
       "fr": "Banc de qualité difficile pour petits modèles de langage locaux (Ollama), en français : deux pistes de réflexion, anti-contamination, juge calibré, statistiques appariées.",
       "en": "Hard quality benchmark for small local language models (Ollama), in French: two reasoning tracks, anti-contamination, calibrated judge, paired statistics."
@@ -72,10 +103,17 @@
     },
     "release": "v0.3.5",
     "preversion": false,
-    "url": "https://github.com/Aliquanto3/slm-quality-bench"
+    "url": "https://github.com/Aliquanto3/slm-quality-bench",
+    "ordre": {
+      "fr": 4,
+      "en": 4
+    }
   },
   {
-    "nom": "Frugal AI Workbench",
+    "nom": {
+      "fr": "Frugal AI Workbench",
+      "en": "Frugal AI Workbench"
+    },
     "description": {
       "fr": "Workbench d'IA locale & responsable : démo de Small Language Models (SLM), RAG avancé et agents autonomes avec mesure d'impact Green IT (CodeCarbon).",
       "en": "Local and responsible AI workbench: small language model (SLM) demo, advanced RAG and autonomous agents, with Green IT impact measurement (CodeCarbon)."
@@ -87,10 +125,17 @@
     },
     "release": "v1.3.0",
     "preversion": true,
-    "url": "https://github.com/Aliquanto3/frugal-ai-workbench"
+    "url": "https://github.com/Aliquanto3/frugal-ai-workbench",
+    "ordre": {
+      "fr": 5,
+      "en": 5
+    }
   },
   {
-    "nom": "Copilote Jira",
+    "nom": {
+      "fr": "Copilote Jira",
+      "en": "Jira Copilot"
+    },
     "description": {
       "fr": "Reporting automatisé et copilote IA d'une usine de migration de SI depuis Jira (données fictives)",
       "en": "Automated reporting and AI copilot for an IT migration factory driven by Jira (fictitious data)."
@@ -102,10 +147,17 @@
     },
     "release": "v0.13.0",
     "preversion": false,
-    "url": "https://github.com/Aliquanto3/usine-migration-jira-demo"
+    "url": "https://github.com/Aliquanto3/usine-migration-jira-demo",
+    "ordre": {
+      "fr": 6,
+      "en": 9
+    }
   },
   {
-    "nom": "DevSecOps Dojo",
+    "nom": {
+      "fr": "DevSecOps Dojo",
+      "en": "DevSecOps Dojo"
+    },
     "description": {
       "fr": "Application pédagogique locale pour apprendre git et GitHub, puis la chaîne CI/CD et DevSecOps, sur du vrai git hors ligne avec un GitHub simulé ; pensée pour les vibe coders. v0.1.0 en test.",
       "en": "Local teaching app to learn git and GitHub, then the CI/CD chain and DevSecOps, on real offline git with a simulated GitHub; built for vibe coders who need to understand what their agent does to their repository."
@@ -117,10 +169,17 @@
     },
     "release": "v0.2.1",
     "preversion": false,
-    "url": "https://github.com/Aliquanto3/devsecops-dojo"
+    "url": "https://github.com/Aliquanto3/devsecops-dojo",
+    "ordre": {
+      "fr": 7,
+      "en": 7
+    }
   },
   {
-    "nom": "NN Weight Writing",
+    "nom": {
+      "fr": "NN Weight Writing",
+      "en": "NN Weight Writing"
+    },
     "description": {
       "fr": "Having an LLM write every weight of a small neural network directly, without training, compared with hand-written rules, standard training, weight editing and activation steering",
       "en": "Having an LLM write every weight of a small neural network directly, without training, then comparing it with hand-written rules, standard training, weight editing and activation steering, from rule-based tasks up to grafting written circuits into a small language model."
@@ -132,10 +191,17 @@
     },
     "release": "v0.1.0",
     "preversion": false,
-    "url": "https://github.com/Aliquanto3/nn-weight-writing"
+    "url": "https://github.com/Aliquanto3/nn-weight-writing",
+    "ordre": {
+      "fr": 8,
+      "en": 10
+    }
   },
   {
-    "nom": "PentestScribe",
+    "nom": {
+      "fr": "PentestScribe",
+      "en": "PentestScribe"
+    },
     "description": {
       "fr": "Assistant IA hors ligne pour les consultants en audit de cybersécurité, sur un PC de 16 Go sans GPU : rédaction de fiches de vulnérabilité à partir des notes de pentest par un petit modèle local, sans qu'aucune donnée ne quitte le poste.",
       "en": "Offline AI assistant for cybersecurity audit consultants on a 16 GB CPU-only laptop: a local small language model drafts vulnerability findings from raw pentest notes, with no data leaving the machine."
@@ -147,10 +213,17 @@
     },
     "release": "v0.1.0",
     "preversion": true,
-    "url": "https://github.com/Aliquanto3/pentest-scribe"
+    "url": "https://github.com/Aliquanto3/pentest-scribe",
+    "ordre": {
+      "fr": 9,
+      "en": 11
+    }
   },
   {
-    "nom": "Roue du hasard",
+    "nom": {
+      "fr": "Roue du hasard",
+      "en": "Gift wheel"
+    },
     "description": {
       "fr": "Roue du hasard : une page HTML autonome pour désigner qui reçoit un cadeau",
       "en": "Single-file web app (one offline HTML page under 200 KB) that spins a fair wheel to decide who gets a gift: cryptographic draw decided before the animation, accessible, works from file://. Version 1.1 (in development) adds an optional on-device chat to drive the wheel in plain French, through a rules-first cascade backed by small models running locally (decision model and SLM with Ollama); the models only call validated actions and never pick the winner."
@@ -162,10 +235,17 @@
     },
     "release": null,
     "preversion": false,
-    "url": "https://github.com/Aliquanto3/roue-du-hasard"
+    "url": "https://github.com/Aliquanto3/roue-du-hasard",
+    "ordre": {
+      "fr": 10,
+      "en": 8
+    }
   },
   {
-    "nom": "SLM Service Public",
+    "nom": {
+      "fr": "SLM Service Public",
+      "en": "SLM Service Public"
+    },
     "description": {
       "fr": "Assistant IA hors ligne pour les agents du secteur public, sur un PC bureautique de 16 Go : petit modèle fine-tuné, RAG local et serveur MCP officiel de data.gouv.",
       "en": "Offline AI assistant for French public sector staff on a 16 GB office PC: fine-tuned small model, local RAG and the official data.gouv MCP server."
@@ -177,10 +257,17 @@
     },
     "release": "v0.4.0",
     "preversion": false,
-    "url": "https://github.com/Aliquanto3/service-public-slm-fine-tuning"
+    "url": "https://github.com/Aliquanto3/service-public-slm-fine-tuning",
+    "ordre": {
+      "fr": 11,
+      "en": 12
+    }
   },
   {
-    "nom": "SLM Weight Editing",
+    "nom": {
+      "fr": "SLM Weight Editing",
+      "en": "SLM Weight Editing"
+    },
     "description": {
       "fr": "Fixing small language model defects (reasoning loops…) by having an LLM (Claude Opus in Claude Code) edit their weights directly, without training — measured against the original by slm-quality-bench",
       "en": "Fixing small language model defects such as reasoning loops by having Claude edit their weights directly, without training, then measuring gains and regressions on SLM Quality Bench."
@@ -192,10 +279,17 @@
     },
     "release": "v0.2.0",
     "preversion": false,
-    "url": "https://github.com/Aliquanto3/slm-weight-editing"
+    "url": "https://github.com/Aliquanto3/slm-weight-editing",
+    "ordre": {
+      "fr": 12,
+      "en": 13
+    }
   },
   {
-    "nom": "Veille agents de code",
+    "nom": {
+      "fr": "Veille agents de code",
+      "en": "Coding agents watch"
+    },
     "description": {
       "fr": "Veille outillée sur les agents de code (Claude Code) : plugins, skills et pratiques classés par problème, vérifiés contre la recherche et les praticiens",
       "en": "Tooled market watch on coding agents (Claude Code first): plugins, skills and practices grouped by the problem they solve, compared with native features and checked against research papers and practitioner feedback, with a visual radar and a sourced report."
@@ -207,10 +301,17 @@
     },
     "release": "v0.2.0",
     "preversion": false,
-    "url": "https://github.com/Aliquanto3/veille-agents-code"
+    "url": "https://github.com/Aliquanto3/veille-agents-code",
+    "ordre": {
+      "fr": 13,
+      "en": 6
+    }
   },
   {
-    "nom": "LibrarianBench",
+    "nom": {
+      "fr": "LibrarianBench",
+      "en": "LibrarianBench"
+    },
     "description": {
       "fr": "Banc de comparaison des architectures de recherche documentaire IA (RAG naïf, hybride, GraphRAG, LLM Wiki, recherche agentique…) sur la qualité, le coût, la latence, l'énergie et la conformité.",
       "en": "Benchmark of AI document retrieval architectures (naive and hybrid RAG, GraphRAG, LLM wiki, agentic search) on quality, cost, latency, energy and compliance."
@@ -222,10 +323,17 @@
     },
     "release": "v0.3.1",
     "preversion": false,
-    "url": "https://github.com/Aliquanto3/librarian-bench"
+    "url": "https://github.com/Aliquanto3/librarian-bench",
+    "ordre": {
+      "fr": 14,
+      "en": 14
+    }
   },
   {
-    "nom": "Mood Steering SLM",
+    "nom": {
+      "fr": "Mood Steering SLM",
+      "en": "Mood Steering SLM"
+    },
     "description": {
       "fr": "Giving a small language model a \"mood\" (joy, calm…) by activation steering at inference time — dosable, reversible, no weight change — compared with a role-play prompt on tone, accuracy, sycophancy and energy",
       "en": "Giving a small language model a \"mood\" such as joy by activation steering at inference time: dosable and reversible, with no weight change, measured against a role-play prompt on tone, accuracy, sycophancy and energy."
@@ -237,10 +345,17 @@
     },
     "release": "v0.2.0",
     "preversion": false,
-    "url": "https://github.com/Aliquanto3/mood-steering-slm"
+    "url": "https://github.com/Aliquanto3/mood-steering-slm",
+    "ordre": {
+      "fr": 15,
+      "en": 15
+    }
   },
   {
-    "nom": "Pilotage projets",
+    "nom": {
+      "fr": "Pilotage projets",
+      "en": "Project cockpit"
+    },
     "description": {
       "fr": "Tableau de bord local : suit les projets et les sessions Claude Code menées en parallèle sur plusieurs PC, et indique quoi relancer à la reprise.",
       "en": "Local, personal dashboard that tracks projects and parallel Claude Code sessions across several PCs: session hooks and a per-PC scan feed a local web app that shows the action to take on each project (stable, to stabilise, paused, to restart, to file) and what to resume after a shutdown."
@@ -252,10 +367,17 @@
     },
     "release": "v0.5.0",
     "preversion": false,
-    "url": "https://github.com/Aliquanto3/pilotage-projets"
+    "url": "https://github.com/Aliquanto3/pilotage-projets",
+    "ordre": {
+      "fr": 16,
+      "en": 16
+    }
   },
   {
-    "nom": "EvalDojo",
+    "nom": {
+      "fr": "EvalDojo",
+      "en": "EvalDojo"
+    },
     "description": {
       "fr": "Application pédagogique pour apprendre à évaluer l'IA générative en pratique : pipelines d'évaluation, LLM juges, jeux de données, RAG et fine-tuning",
       "en": "Teaching app to learn how to evaluate generative AI in practice: evaluation pipelines, LLM-as-a-judge, evaluation datasets, RAG and AI search evaluation, and data and evaluation for LLM fine-tuning."
@@ -267,6 +389,10 @@
     },
     "release": null,
     "preversion": false,
-    "url": "https://github.com/Aliquanto3/eval-dojo"
+    "url": "https://github.com/Aliquanto3/eval-dojo",
+    "ordre": {
+      "fr": 17,
+      "en": 17
+    }
   }
 ]
