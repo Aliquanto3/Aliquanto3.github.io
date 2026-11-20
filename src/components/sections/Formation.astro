@@ -1,0 +1,44 @@
+---
+import { formations } from "../../data/profil";
+import { useTranslations, type Lang } from "../../i18n/ui";
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+---
+
+<section id="formation" class="section-contenu">
+  <h2>{t("section.formation")}</h2>
+  <ul class="formation__liste">
+    {formations.map((formation) => (
+      <li class="formation__item">
+        <p class="formation__diplome">{formation.diplome[lang]}</p>
+        <p class="formation__meta">
+          {formation.etablissement} · {formation.debut}–{formation.fin}
+        </p>
+      </li>
+    ))}
+  </ul>
+</section>
+
+<style>
+  .formation__liste {
+    display: flex;
+    flex-direction: column;
+    gap: var(--espacement-4);
+    max-width: 65ch;
+  }
+
+  .formation__diplome {
+    font-family: var(--police-titres);
+    font-weight: var(--graisse-titres);
+  }
+
+  .formation__meta {
+    color: var(--texte-attenue);
+    font-size: var(--taille-petit);
+  }
+</style>

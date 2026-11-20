@@ -16,7 +16,8 @@
     "check": "astro check",
     "lint": "prettier --check .",
     "projets": "node scripts/projets.mjs",
-    "test": "node --test scripts/projets.test.mjs"
+    "test": "node --test scripts/projets.test.mjs scripts/verif-confidentialite.test.mjs",
+    "verif": "node scripts/verif-confidentialite.mjs"
   },
   "dependencies": {
     "@astrojs/react": "^7.1.9",

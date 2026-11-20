@@ -1,0 +1,109 @@
+---
+import { experiences, formatPeriode, nomEmployeur } from "../../data/profil";
+import { useTranslations, type Lang } from "../../i18n/ui";
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+---
+
+<section id="experience" class="section-contenu">
+  <h2>{t("section.experience")}</h2>
+  <ul class="experience__liste">
+    {experiences.map((experience) => (
+      <li class="experience__item">
+        <details>
+          <summary class="experience__resume">
+            <span class="experience__poste">
+              <strong>{experience.intitule[lang]}</strong>
+              <span class="experience__employeur">
+                {" "}
+                · {nomEmployeur(lang, experience.employeur)}
+              </span>
+            </span>
+            <span class="experience__meta">
+              {formatPeriode(lang, experience.debut, experience.fin)}
+              {experience.lieu && (
+                <span class="experience__lieu"> · {experience.lieu}</span>
+              )}
+            </span>
+          </summary>
+          <ul class="experience__points">
+            {experience.points.map((point) => (
+              <li>{point[lang]}</li>
+            ))}
+          </ul>
+        </details>
+      </li>
+    ))}
+  </ul>
+</section>
+
+<style>
+  .experience__liste {
+    display: flex;
+    flex-direction: column;
+    gap: var(--espacement-4);
+    max-width: 65ch;
+  }
+
+  .experience__item {
+    border: var(--trait-largeur) solid var(--trait);
+    border-radius: var(--rayon-moyen);
+    background: var(--surface);
+  }
+
+  .experience__resume {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--espacement-2);
+    padding: var(--espacement-4);
+    cursor: pointer;
+    list-style: none;
+  }
+
+  .experience__resume::-webkit-details-marker,
+  .experience__resume::marker {
+    display: none;
+    content: "";
+  }
+
+  .experience__resume::before {
+    content: "▸";
+    display: inline-block;
+    margin-inline-end: var(--espacement-2);
+    color: var(--primaire);
+    transition: transform 0.15s ease;
+  }
+
+  details[open] > .experience__resume::before {
+    transform: rotate(90deg);
+  }
+
+  .experience__employeur {
+    color: var(--texte-attenue);
+  }
+
+  .experience__meta {
+    color: var(--texte-attenue);
+    font-size: var(--taille-petit);
+    white-space: nowrap;
+  }
+
+  .experience__points {
+    padding: 0 var(--espacement-4) var(--espacement-4)
+      calc(var(--espacement-4) + var(--espacement-5));
+    color: var(--texte-attenue);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .experience__resume::before {
+      transition: none;
+    }
+  }
+</style>

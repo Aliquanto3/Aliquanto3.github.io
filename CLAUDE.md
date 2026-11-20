@@ -10,8 +10,9 @@ Epics, décisions et stories : `_bmad-output/planning-artifacts/epics.md`.
 - `npm run build` : site statique dans `dist/`
 - `npm run check` : `astro check`
 - `npm run lint` : `prettier --check .` (corriger avec `npx prettier --write .`)
-- `npm test` (`node --test`) : tests de `scripts/projets.mjs`
+- `npm test` (`node --test`) : tests de `scripts/projets.mjs` et `scripts/verif-confidentialite.mjs`
 - `npm run projets` : régénère `src/data/projets.json` à la main (lancé aussi en `prebuild`)
+- `npm run verif` : après le build, cherche téléphones et noms de clients dans `dist/` ; liste lue dans `$CLIENTS_A_MASQUER` (fichier), `$CLIENTS_A_MASQUER_B64` (secret de CI) ou `CVs/clients-a-masquer.txt`, sinon partie clients sautée avec avertissement
 - Contrôle rapide de fin de story : `uv run --no-project python .claude/cost-kit/controle_rapide.py` (lint + check)
 
 La CI (`.github/workflows/deploy.yml`) lance lint, check et build sur chaque PR

@@ -1,0 +1,23 @@
+---
+import { aPropos } from "../../data/profil";
+import { useTranslations, type Lang } from "../../i18n/ui";
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+---
+
+<section id="apropos" class="section-contenu">
+  <h2>{t("section.apropos")}</h2>
+  <p class="apropos__texte">{aPropos[lang]}</p>
+</section>
+
+<style>
+  .apropos__texte {
+    max-width: 65ch;
+    color: var(--texte-attenue);
+  }
+</style>

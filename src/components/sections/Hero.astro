@@ -1,0 +1,58 @@
+---
+import { identite } from "../../data/profil";
+import type { Lang } from "../../i18n/ui";
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+---
+
+<section id="hero" class="hero">
+  <img
+    class="hero__avatar"
+    src={identite.avatar}
+    alt=""
+    width="128"
+    height="128"
+    loading="eager"
+  />
+  <h1 class="hero__nom">{identite.nom}</h1>
+  <p class="hero__titre">{identite.titre[lang]}</p>
+  <p class="hero__accroche">{identite.accroche[lang]}</p>
+</section>
+
+<style>
+  .hero {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: var(--espacement-3);
+    padding-block: var(--espacement-7) var(--espacement-6);
+  }
+
+  .hero__avatar {
+    width: 128px;
+    height: 128px;
+    border-radius: var(--rayon-pilule);
+    border: var(--trait-largeur) solid var(--trait);
+  }
+
+  .hero__nom {
+    font-size: var(--taille-titre-1);
+  }
+
+  .hero__titre {
+    color: var(--primaire);
+    font-family: var(--police-titres);
+    font-weight: var(--graisse-titres);
+    font-size: var(--taille-titre-4);
+  }
+
+  .hero__accroche {
+    max-width: 48ch;
+    color: var(--texte-attenue);
+  }
+</style>
