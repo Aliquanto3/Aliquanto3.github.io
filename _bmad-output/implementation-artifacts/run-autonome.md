@@ -28,3 +28,11 @@ Au plus 2 stories en développement à la fois
 ## Journal
 
 - 2026-11-20 15:53 · run · décision · cadrage validé (Astro, charte-generique, Pages sur Aliquanto3.github.io, FR/EN, LinkedIn fait foi, clients anonymisés, titre AI Architect) ·
+- 2026-11-20 15:55 · 1.1 · dev · lancé (dev-story Opus, worktree) · —
+- 2026-11-20 15:57 · 1.1 · blocked · isolation worktree perdue, rien fait ; relance dans un worktree git manuel · —
+- 2026-11-20 16:15 · 1.1 · dev · fini, lint/check/build verts, CI PR verte, PR #1 · 389e3cb
+- 2026-11-20 16:17 · 1.1 · second-avis · 1 medium (deploy par workflow_dispatch hors main), 2 low · —
+- 2026-11-20 16:20 · 1.1 · review · passe 1 : medium corrigé (deploy limité à main), 1 low corrigé, 1 écarté · 5ad0ccc
+- 2026-11-20 16:20 · 1.1 · fusion · #1 fusionnée, MERGED vérifié · 650de3c
+- 2026-11-20 16:22 · run · décision · cost-kit-install relancé : global conforme, contrôle rapide npm (lint + check) installé · —
+- 2026-11-20 16:23 · 1.1 · CI · verte sur main, site publié (https://aliquanto3.github.io/) · 650de3c

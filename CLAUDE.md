@@ -10,6 +10,7 @@ Epics, décisions et stories : `_bmad-output/planning-artifacts/epics.md`.
 - `npm run build` : site statique dans `dist/`
 - `npm run check` : `astro check`
 - `npm run lint` : `prettier --check .` (corriger avec `npx prettier --write .`)
+- Contrôle rapide de fin de story : `uv run --no-project python .claude/cost-kit/controle_rapide.py` (lint + check)
 
 La CI (`.github/workflows/deploy.yml`) lance lint, check et build sur chaque PR
 (porte de fusion) et déploie sur `main`, le lundi 06:00 UTC et à la demande.
