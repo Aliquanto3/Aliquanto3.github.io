@@ -1,0 +1,10 @@
+dist/
+node_modules/
+.astro/
+CVs/
+_bmad-output/
+.claude/
+package-lock.json
+# Copies verbatim de la charte : mises à jour depuis la source, pas reformatées.
+src/styles/charte.css
+public/favicon.svg
