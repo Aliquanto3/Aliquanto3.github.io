@@ -11,8 +11,6 @@ on:
 
 permissions:
   contents: read
-  pages: write
-  id-token: write
 
 concurrency:
   group: pages-${{ github.event_name == 'pull_request' && github.ref || 'deploy' }}
@@ -36,9 +34,13 @@ jobs:
           path: dist
 
   deploy:
-    if: github.event_name != 'pull_request'
+    # Seul main est publié, y compris pour un déclenchement manuel.
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
     needs: build
     runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
