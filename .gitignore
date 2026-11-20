@@ -1,0 +1,7 @@
+CVs/
+node_modules/
+dist/
+.astro/
+.env
+.claude/settings.local.json
+.claude/cost-kit/verif-front/
