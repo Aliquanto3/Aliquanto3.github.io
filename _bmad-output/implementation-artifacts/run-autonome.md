@@ -48,3 +48,7 @@ Au plus 2 stories en développement à la fois
 - 2026-11-20 16:45 · 1.4 · review · passe 1 : 3 high + 2 medium corrigés, 2 low corrigés, 1 écarté ; 21 tests · 832ce98
 - 2026-11-20 16:49 · 1.4 · review · passe 2 : rebasée sur main, 0 Important, 3 low laissés · 1154092
 - 2026-11-20 16:50 · 1.4 · fusion · #3 fusionnée, MERGED vérifié · 9023ee6
+- 2026-11-20 16:54 · 1.3 · dev · fini, rebasée sur 1.4, verif confidentialité verte, PR #4 · 65508f7
+- 2026-11-20 17:00 · 1.3 · second-avis · 1 high (employeur = personne physique + détail qui identifie un client), 8 medium (liste à masquer incomplète de 7, dates et intitulés hors LinkedIn, verif pas jouée en CI), 2 low · —
+- 2026-11-20 17:12 · 1.3 · review · passe 1 : 1 high + 7 medium corrigés, 2 low corrigés ; liste à masquer 5 → 18 noms ; historique réécrit en 1 commit (nom d'intermédiaire) · d6fa1b9
+- 2026-11-20 17:12 · 1.3 · attente humaine · relecture du profil par Anaël (questions en tête de src/data/profil.ts) et secret CLIENTS_A_MASQUER_B64 à poser · d6fa1b9
