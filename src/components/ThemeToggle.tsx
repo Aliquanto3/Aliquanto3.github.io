@@ -1,4 +1,4 @@
-import { useEffect, useId, useState } from "react";
+import { useEffect, useState } from "react";
 import { useTranslations, type Lang } from "../i18n/ui";
 
 export interface ThemeToggleProps {
@@ -27,7 +27,6 @@ function lireTheme(): Theme {
  */
 export default function ThemeToggle({ lang }: ThemeToggleProps) {
   const t = useTranslations(lang);
-  const idInfobulle = useId();
   // Par défaut sombre, comme le script inline de Base.astro : cohérent avec
   // la CSS, qui affiche l'icône soleil tant que data-theme n'est pas "clair".
   const [theme, setTheme] = useState<Theme>("sombre");
@@ -52,12 +51,11 @@ export default function ThemeToggle({ lang }: ThemeToggleProps) {
     theme === "sombre" ? t("nav.theme.clair") : t("nav.theme.sombre");
 
   return (
-    <span className="barre__item">
+    <span className="barre__item barre__item--droite">
       <button
         type="button"
         className="barre__bouton"
         aria-label={label}
-        aria-describedby={idInfobulle}
         onClick={basculer}
       >
         <svg
@@ -92,7 +90,7 @@ export default function ThemeToggle({ lang }: ThemeToggleProps) {
           <path d="M21 12.8A9 9 0 1 1 11.2 3 7 7 0 0 0 21 12.8Z" />
         </svg>
       </button>
-      <span id={idInfobulle} role="tooltip" className="barre__infobulle">
+      <span className="barre__infobulle" aria-hidden="true">
         {label}
       </span>
     </span>

@@ -21,7 +21,8 @@ const fr = {
   "nav.linkedin": "Profil LinkedIn",
   "nav.email": "Copier l'adresse e-mail",
   "nav.email.copie": "E-mail copié",
-  "nav.langue": "Passer en anglais",
+  "nav.langue": "Passer en anglais (EN)",
+  "nav.nouvelOnglet": "(nouvel onglet)",
   "nav.theme.clair": "Passer au thème clair",
   "nav.theme.sombre": "Passer au thème sombre",
 } as const;
@@ -37,7 +38,8 @@ export const ui: Record<Lang, Record<Cles, string>> = {
     "nav.linkedin": "LinkedIn profile",
     "nav.email": "Copy email address",
     "nav.email.copie": "Email copied",
-    "nav.langue": "Switch to French",
+    "nav.langue": "Switch to French (FR)",
+    "nav.nouvelOnglet": "(new tab)",
     "nav.theme.clair": "Switch to light theme",
     "nav.theme.sombre": "Switch to dark theme",
   },
@@ -51,7 +53,8 @@ export function useTranslations(lang: Lang) {
 
 export function getLangFromUrl(url: URL): Lang {
   const [, maybeLang] = url.pathname.split("/");
-  if (maybeLang && maybeLang in languages) {
+  // Object.hasOwn : `in` suivrait le prototype ("/constructor/").
+  if (maybeLang && Object.hasOwn(languages, maybeLang)) {
     return maybeLang as Lang;
   }
   return defaultLang;

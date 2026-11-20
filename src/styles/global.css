@@ -142,6 +142,18 @@ main {
   transform: translateX(-50%) translateY(0);
 }
 
+/* Fin de barre : info-bulle alignée à droite, sans débordement à 320 px. */
+.barre__item--droite .barre__infobulle {
+  left: auto;
+  right: 0;
+  transform: translateY(4px);
+}
+
+.barre__item--droite .barre__bouton:hover + .barre__infobulle,
+.barre__item--droite .barre__bouton:focus-visible + .barre__infobulle {
+  transform: translateY(0);
+}
+
 /* Icônes du thème : toutes deux rendues, la CSS choisit laquelle afficher
    (évite tout décalage à l'hydratation, cf. ThemeToggle.tsx). */
 .barre__icone-lune {

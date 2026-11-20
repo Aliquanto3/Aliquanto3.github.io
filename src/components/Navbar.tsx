@@ -1,4 +1,4 @@
-import { useId, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useTranslations, type Lang } from "../i18n/ui";
 import ThemeToggle from "./ThemeToggle";
 
@@ -77,8 +77,10 @@ const IconeMail = () => (
 
 const IconeCoche = () => <Icone enfants={<path d="m20 6-11 11-5-5" />} />;
 
-function barreItemClasses() {
-  return "barre__item";
+/** `droite` : info-bulle alignée sur le bord droit de l'élément, pour ne pas
+ * déborder de l'écran en fin de barre sur petit écran. */
+function barreItemClasses(droite?: boolean) {
+  return droite ? "barre__item barre__item--droite" : "barre__item";
 }
 
 function BarreBouton({
@@ -90,19 +92,18 @@ function BarreBouton({
   onClick: () => void;
   children: React.ReactNode;
 }) {
-  const idInfobulle = useId();
   return (
     <span className={barreItemClasses()}>
       <button
         type="button"
         className="barre__bouton"
         aria-label={label}
-        aria-describedby={idInfobulle}
         onClick={onClick}
       >
         {children}
       </button>
-      <span id={idInfobulle} role="tooltip" className="barre__infobulle">
+      {/* Info-bulle visuelle : elle répète le nom accessible, d'où aria-hidden. */}
+      <span className="barre__infobulle" aria-hidden="true">
         {label}
       </span>
     </span>
@@ -112,27 +113,31 @@ function BarreBouton({
 function BarreLien({
   href,
   label,
+  labelLecteur,
   externe,
+  droite,
   children,
 }: {
   href: string;
   label: string;
+  /** Nom accessible s'il diffère de l'info-bulle (doit la contenir). */
+  labelLecteur?: string;
   externe?: boolean;
+  droite?: boolean;
   children: React.ReactNode;
 }) {
-  const idInfobulle = useId();
   return (
-    <span className={barreItemClasses()}>
+    <span className={barreItemClasses(droite)}>
       <a
         href={href}
         className="barre__bouton"
-        aria-label={label}
-        aria-describedby={idInfobulle}
+        aria-label={labelLecteur ?? label}
         {...(externe ? { target: "_blank", rel: "noopener noreferrer" } : {})}
       >
         {children}
       </a>
-      <span id={idInfobulle} role="tooltip" className="barre__infobulle">
+      {/* Info-bulle visuelle : elle répète le nom accessible, d'où aria-hidden. */}
+      <span className="barre__infobulle" aria-hidden="true">
         {label}
       </span>
     </span>
@@ -150,6 +155,13 @@ export default function Navbar({
   const t = useTranslations(lang);
   const [copie, setCopie] = useState(false);
   const minuteur = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(
+    () => () => {
+      if (minuteur.current) clearTimeout(minuteur.current);
+    },
+    [],
+  );
 
   async function copierEmail() {
     try {
@@ -173,10 +185,20 @@ export default function Navbar({
       <BarreLien href={homeHref} label={t("nav.accueil")}>
         <IconeAccueil />
       </BarreLien>
-      <BarreLien href={githubUrl} label={t("nav.github")} externe>
+      <BarreLien
+        href={githubUrl}
+        label={t("nav.github")}
+        labelLecteur={`${t("nav.github")} ${t("nav.nouvelOnglet")}`}
+        externe
+      >
         <IconeGitHub />
       </BarreLien>
-      <BarreLien href={linkedinUrl} label={t("nav.linkedin")} externe>
+      <BarreLien
+        href={linkedinUrl}
+        label={t("nav.linkedin")}
+        labelLecteur={`${t("nav.linkedin")} ${t("nav.nouvelOnglet")}`}
+        externe
+      >
         <IconeLinkedIn />
       </BarreLien>
       <BarreBouton
@@ -186,7 +208,7 @@ export default function Navbar({
         {copie ? <IconeCoche /> : <IconeMail />}
       </BarreBouton>
       <span className="barre__separateur" aria-hidden="true" />
-      <BarreLien href={otherLangHref} label={t("nav.langue")}>
+      <BarreLien href={otherLangHref} label={t("nav.langue")} droite>
         <span className="barre__texte-langue" aria-hidden="true">
           {libelleAutreLangue}
         </span>
