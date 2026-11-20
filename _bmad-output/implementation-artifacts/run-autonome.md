@@ -36,3 +36,15 @@ Au plus 2 stories en développement à la fois
 - 2026-11-20 16:20 · 1.1 · fusion · #1 fusionnée, MERGED vérifié · 650de3c
 - 2026-11-20 16:22 · run · décision · cost-kit-install relancé : global conforme, contrôle rapide npm (lint + check) installé · —
 - 2026-11-20 16:23 · 1.1 · CI · verte sur main, site publié (https://aliquanto3.github.io/) · 650de3c
+- 2026-11-20 16:24 · 1.2 · dev · lancé (dev-story Sonnet, worktree) · —
+- 2026-11-20 16:24 · 1.4 · dev · lancé (dev-story Sonnet, worktree) · —
+- 2026-11-20 16:32 · 1.2 · dev · fini, contrôle rapide + build verts, PR #2 · 85c264d
+- 2026-11-20 16:34 · 1.2 · second-avis · 0 high/medium, 7 low (prototype dans getLangFromUrl, label-in-name, tooltip qui déborde à 320 px…) · —
+- 2026-11-20 16:36 · 1.4 · dev · fini, 15 tests verts, 18 projets, PR #3 · 63d55a4
+- 2026-11-20 16:38 · 1.4 · second-avis · 3 high (name_en ignoré, instantané écrasé par réponse vide, dépôts privés avec jeton), 2 medium, 3 low · —
+- 2026-11-20 16:39 · 1.2 · review · passe 1 : 0 Important, 6 low corrigés, 1 écarté · 2e5388f
+- 2026-11-20 16:39 · 1.2 · fusion · #2 fusionnée, MERGED vérifié · c10b365
+- 2026-11-20 16:39 · 1.3 · dev · lancé (dev-story Sonnet, worktree) · —
+- 2026-11-20 16:45 · 1.4 · review · passe 1 : 3 high + 2 medium corrigés, 2 low corrigés, 1 écarté ; 21 tests · 832ce98
+- 2026-11-20 16:49 · 1.4 · review · passe 2 : rebasée sur main, 0 Important, 3 low laissés · 1154092
+- 2026-11-20 16:50 · 1.4 · fusion · #3 fusionnée, MERGED vérifié · 9023ee6
