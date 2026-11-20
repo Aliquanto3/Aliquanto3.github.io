@@ -1,5 +1,10 @@
 ---
 import Base from "../layouts/Base.astro";
+import Hero from "../components/sections/Hero.astro";
+import APropos from "../components/sections/APropos.astro";
+import Experience from "../components/sections/Experience.astro";
+import Formation from "../components/sections/Formation.astro";
+import Competences from "../components/sections/Competences.astro";
 import Projets from "../components/sections/Projets.astro";
 ---
 
@@ -9,10 +14,11 @@ import Projets from "../components/sections/Projets.astro";
   description="Page personnelle d'Anaël Yahi, architecte IA."
 >
   <main class="mx-auto max-w-2xl px-6 py-16">
-    <section id="hero">
-      <h1>Anaël Yahi</h1>
-      <p>Architecte IA</p>
-    </section>
+    <Hero lang="fr" />
+    <APropos lang="fr" />
+    <Experience lang="fr" />
+    <Formation lang="fr" />
+    <Competences lang="fr" />
     <Projets lang="fr" />
   </main>
 </Base>

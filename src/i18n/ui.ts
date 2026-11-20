@@ -25,6 +25,10 @@ const fr = {
   "nav.nouvelOnglet": "(nouvel onglet)",
   "nav.theme.clair": "Passer au thème clair",
   "nav.theme.sombre": "Passer au thème sombre",
+  "section.apropos": "À propos",
+  "section.experience": "Expérience",
+  "section.formation": "Formation",
+  "section.competences": "Compétences",
 } as const;
 
 type Cles = keyof typeof fr;
@@ -42,6 +46,10 @@ export const ui: Record<Lang, Record<Cles, string>> = {
     "nav.nouvelOnglet": "(new tab)",
     "nav.theme.clair": "Switch to light theme",
     "nav.theme.sombre": "Switch to dark theme",
+    "section.apropos": "About",
+    "section.experience": "Experience",
+    "section.formation": "Education",
+    "section.competences": "Skills",
   },
 };
 

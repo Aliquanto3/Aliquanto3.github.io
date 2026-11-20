@@ -1,0 +1,58 @@
+---
+import { competences } from "../../data/profil";
+import { useTranslations, type Lang } from "../../i18n/ui";
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+---
+
+<section id="competences" class="section-contenu">
+  <h2>{t("section.competences")}</h2>
+  <div class="competences__groupes">
+    {competences.map((groupe) => (
+      <div class="competences__groupe">
+        <h3 class="competences__titre">{groupe.titre[lang]}</h3>
+        <ul class="competences__badges">
+          {groupe.badges.map((badge) => (
+            <li class="badge">{badge}</li>
+          ))}
+        </ul>
+      </div>
+    ))}
+  </div>
+</section>
+
+<style>
+  .competences__groupes {
+    display: flex;
+    flex-direction: column;
+    gap: var(--espacement-5);
+    max-width: 65ch;
+  }
+
+  .competences__titre {
+    font-size: var(--taille-grand);
+    margin-bottom: var(--espacement-2);
+  }
+
+  .competences__badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--espacement-2);
+    list-style: none;
+    padding: 0;
+  }
+
+  .badge {
+    padding: var(--espacement-1) var(--espacement-3);
+    border: var(--trait-largeur) solid var(--trait);
+    border-radius: var(--rayon-pilule);
+    background: var(--surface);
+    color: var(--texte);
+    font-size: var(--taille-petit);
+  }
+</style>

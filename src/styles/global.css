@@ -63,6 +63,17 @@ main {
   padding-bottom: calc(var(--espacement-8) + 56px);
 }
 
+/* Sections de profil (story 1.3) : espacement et titre homogènes. */
+.section-contenu {
+  padding-block: var(--espacement-6);
+  border-top: var(--trait-largeur) solid var(--trait);
+}
+
+.section-contenu h2 {
+  font-size: var(--taille-titre-3);
+  margin-bottom: var(--espacement-5);
+}
+
 /* Barre flottante (story 1.2) : dock centré en bas d'écran. */
 .barre {
   position: fixed;

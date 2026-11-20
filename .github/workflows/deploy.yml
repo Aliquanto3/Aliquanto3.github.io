@@ -34,6 +34,11 @@ jobs:
           # Lecture de l'API publique (search, releases) : 1 000 requêtes/h par
           # dépôt au lieu de 60/h anonymes par IP de runner partagée.
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - run: npm run verif
+        env:
+          # Liste des clients à masquer, en base64, hors dépôt (dépôt public).
+          # Secret absent : partie clients sautée avec un avertissement.
+          CLIENTS_A_MASQUER_B64: ${{ secrets.CLIENTS_A_MASQUER_B64 }}
       - uses: actions/upload-pages-artifact@v5
         with:
           path: dist
