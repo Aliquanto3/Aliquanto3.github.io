@@ -1,0 +1,133 @@
+---
+// Section « Projets », alimentée par src/data/projets.json (instantané généré
+// au build par scripts/projets.mjs depuis portfolio.json et l'API GitHub).
+//
+// Correspondance état -> couleurs de badge (charte-generique v2.1.0), choisie
+// pour rester dans la liste de variables de statut de la charte et garder un
+// contraste suffisant (fond en teinte « -doux », texte --texte ou --alerte-texte) :
+//   status-deployed -> --succes-doux (fond) / --succes (puce)      : déployé, succès
+//   status-refonte  -> --alerte-doux (fond) / --alerte (puce)      : refonte majeure, à surveiller
+//                      texte --alerte-texte (contraste déjà validé par la charte)
+//   status-test     -> --primaire-doux (fond et puce)              : construit, en test
+//   status-bench     -> --erreur-doux (fond) / --erreur (puce)      : entraînement ou bancs en cours
+//                      (couleur la plus marquée restante, pour l'état le plus incertain)
+//   status-dev       -> --sur-statut (fond) / --neutre (puce)       : en développement
+//   status-spec      -> --sur-statut (fond) / --badge-etiquette (puce) : en spécification
+//   état inconnu      -> --sur-statut (fond) / --neutre (puce), repli
+import projets from "../../data/projets.json";
+
+interface Props {
+  lang: "fr" | "en";
+}
+
+const { lang } = Astro.props;
+
+const labels = {
+  fr: {
+    titre: "Projets",
+    tous: "Tous les projets sur GitHub",
+    voir: (nom: string) => `Voir le dépôt ${nom} sur GitHub`,
+  },
+  en: {
+    titre: "Projects",
+    tous: "All projects on GitHub",
+    voir: (nom: string) => `View the ${nom} repository on GitHub`,
+  },
+};
+const t = labels[lang];
+
+const DEFAULT_BADGE = {
+  fond: "var(--sur-statut)",
+  texte: "var(--texte)",
+  puce: "var(--neutre)",
+};
+const badgeStyles: Record<
+  string,
+  { fond: string; texte: string; puce: string }
+> = {
+  "status-deployed": {
+    fond: "var(--succes-doux)",
+    texte: "var(--texte)",
+    puce: "var(--succes)",
+  },
+  "status-refonte": {
+    fond: "var(--alerte-doux)",
+    texte: "var(--alerte-texte)",
+    puce: "var(--alerte)",
+  },
+  "status-test": {
+    fond: "var(--primaire-doux)",
+    texte: "var(--texte)",
+    puce: "var(--primaire-doux)",
+  },
+  "status-bench": {
+    fond: "var(--erreur-doux)",
+    texte: "var(--texte)",
+    puce: "var(--erreur)",
+  },
+  "status-dev": {
+    fond: "var(--sur-statut)",
+    texte: "var(--texte)",
+    puce: "var(--neutre)",
+  },
+  "status-spec": {
+    fond: "var(--sur-statut)",
+    texte: "var(--texte)",
+    puce: "var(--badge-etiquette)",
+  },
+};
+---
+
+<section id="projets" class="py-16">
+  <h2 class="text-[length:var(--taille-titre-2)]">{t.titre}</h2>
+  <div class="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+    {projets.map((p) => {
+      const badge = badgeStyles[p.etat ?? ""] ?? DEFAULT_BADGE;
+      return (
+        <article
+          class="flex flex-col gap-3 rounded-[var(--rayon-moyen)] border p-5"
+          style={{
+            backgroundColor: "var(--surface)",
+            borderColor: "var(--trait)",
+          }}
+        >
+          <h3 class="text-[length:var(--taille-grand)]">{p.nom}</h3>
+          <span
+            class="inline-flex w-fit items-center gap-2 rounded-[var(--rayon-moyen)] px-2 py-1 text-[length:var(--taille-petit)]"
+            style={{
+              backgroundColor: badge.fond,
+              color: badge.texte,
+              border: `1px solid ${badge.puce}`,
+            }}
+          >
+            {p.etatLabel[lang]}
+          </span>
+          <p
+            class="text-[length:var(--taille-petit)]"
+            style={{ color: "var(--texte-attenue)" }}
+          >
+            {p.description[lang]}
+          </p>
+          <a
+            href={p.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={t.voir(p.nom)}
+            class="mt-auto"
+          >
+            GitHub ↗
+          </a>
+        </article>
+      );
+    })}
+  </div>
+  <p class="mt-8">
+    <a
+      href="https://github.com/Aliquanto3"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      {t.tous}
+    </a>
+  </p>
+</section>

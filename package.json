@@ -10,10 +10,13 @@
   },
   "scripts": {
     "dev": "astro dev",
+    "prebuild": "node scripts/projets.mjs",
     "build": "astro build",
     "preview": "astro preview",
     "check": "astro check",
-    "lint": "prettier --check ."
+    "lint": "prettier --check .",
+    "projets": "node scripts/projets.mjs",
+    "test": "node --test scripts/projets.test.mjs"
   },
   "dependencies": {
     "@astrojs/react": "^7.1.9",

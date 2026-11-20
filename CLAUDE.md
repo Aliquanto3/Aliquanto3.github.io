@@ -10,6 +10,8 @@ Epics, décisions et stories : `_bmad-output/planning-artifacts/epics.md`.
 - `npm run build` : site statique dans `dist/`
 - `npm run check` : `astro check`
 - `npm run lint` : `prettier --check .` (corriger avec `npx prettier --write .`)
+- `npm test` (`node --test`) : tests de `scripts/projets.mjs`
+- `npm run projets` : régénère `src/data/projets.json` à la main (lancé aussi en `prebuild`)
 - Contrôle rapide de fin de story : `uv run --no-project python .claude/cost-kit/controle_rapide.py` (lint + check)
 
 La CI (`.github/workflows/deploy.yml`) lance lint, check et build sur chaque PR
