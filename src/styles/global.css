@@ -1,0 +1,59 @@
+/*
+ * Styles globaux. Règle : couleurs, polices et rayons uniquement par les
+ * variables de la charte (src/styles/charte.css). Tailwind sert à la mise en
+ * page seulement : ses palettes, polices et rayons sont désactivés ci-dessous.
+ */
+@import "@fontsource/sora/600.css";
+@import "@fontsource/atkinson-hyperlegible/400.css";
+@import "@fontsource/atkinson-hyperlegible/700.css";
+@import "@fontsource/jetbrains-mono/400.css";
+
+@import "tailwindcss/theme.css" layer(theme);
+@import "tailwindcss/preflight.css" layer(base);
+@import "tailwindcss/utilities.css" layer(utilities);
+@import "./charte.css";
+
+@theme {
+  --color-*: initial;
+  --font-*: initial;
+  --radius-*: initial;
+  --shadow-*: initial;
+}
+
+html {
+  background: var(--fond);
+  color: var(--texte);
+  font-family: var(--police-texte);
+  font-size: var(--taille-base);
+  line-height: 1.6;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--police-titres);
+  font-weight: var(--graisse-titres);
+  line-height: 1.2;
+}
+
+code,
+kbd,
+pre,
+samp {
+  font-family: var(--police-code);
+}
+
+a {
+  color: var(--primaire);
+}
+
+a:hover {
+  color: var(--primaire-vif);
+}
+
+:focus-visible {
+  outline: var(--focus-largeur) solid var(--focus);
+  outline-offset: var(--focus-decalage);
+  border-radius: var(--rayon-petit);
+}

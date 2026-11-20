@@ -1,0 +1,62 @@
+---
+import "../styles/global.css";
+
+export type Lang = "fr" | "en";
+
+interface Props {
+  lang: Lang;
+  title: string;
+  description: string;
+}
+
+const { lang, title, description } = Astro.props;
+
+// Chemin sans préfixe de langue : "/" pour l'accueil, quelle que soit la langue.
+const chemin = Astro.url.pathname.replace(/^\/en(?=\/|$)/, "") || "/";
+const site = Astro.site ?? new URL("https://aliquanto3.github.io");
+const urls: Record<Lang, string> = {
+  fr: new URL(chemin, site).href,
+  en: new URL(`/en${chemin}`, site).href,
+};
+---
+
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!--
+      Thème sans flash, avant le premier rendu. Le choix stocké
+      (localStorage "theme" : "sombre" | "clair") prime, sinon
+      prefers-color-scheme, sombre par défaut. Le résultat est posé en
+      data-theme sur <html> : ThemeToggle (story 1.2) lit et écrit cet
+      attribut et la même clé.
+    -->
+    <script is:inline>
+      (function () {
+        var theme = null;
+        try {
+          theme = localStorage.getItem("theme");
+        } catch (e) {}
+        if (theme !== "sombre" && theme !== "clair") {
+          theme =
+            window.matchMedia &&
+            window.matchMedia("(prefers-color-scheme: light)").matches
+              ? "clair"
+              : "sombre";
+        }
+        document.documentElement.setAttribute("data-theme", theme);
+      })();
+    </script>
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={urls[lang]} />
+    <link rel="alternate" hreflang="fr" href={urls.fr} />
+    <link rel="alternate" hreflang="en" href={urls.en} />
+    <link rel="alternate" hreflang="x-default" href={urls.fr} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>
